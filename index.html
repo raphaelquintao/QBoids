@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Boids</title>
+    <link rel="icon" href="img/fly.png">
+
+    <script src="js/libs/three.js"></script>
+    <script src="js/QUtil.js"></script>
+    <script src="js/QBoid.js"></script>
+    <script src="js/main.js"></script>
+
+    <style>
+        html {
+            height: 100%;
+            width: 100%;
+            background-color: #121212;
+            color: #d9d9d9;
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #333333;
+        }
+
+        #content {
+            width: calc(100% - 40px);
+            height: calc(100% - 40px);
+            background-color: #464646;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px;
+            margin-bottom: 0;
+            position: fixed;
+
+        }
+
+        .debug {
+            position: absolute;
+            margin: 25px;
+            background-color: rgba(225, 225, 225, 0.95);
+            padding: 5px 7px;
+            border-radius: 5px;
+            white-space: pre;
+            font-family: monospace;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<div id="content">
+
+</div>
+
+<div class="debug">asd</div>
+
+</body>
+</html>
