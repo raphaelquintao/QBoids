@@ -1,12 +1,11 @@
-var QUtils = {};
+var QUtil = {};
 
 /**
  * FPS Monitor.
- * @exports QUtils.FPS
- * @return {QUtils.module:FPS}
+ * @return {QUtil.FPS}
  * @class
  */
-QUtils.FPS = function (minimalist_design) {
+QUtil.FPS = function FPS(minimalist_design) {
     if (minimalist_design === undefined) minimalist_design = true;
     var beginTime = Date.now(), prevTime = beginTime, frames = 0;
     var fps = 0, ms = 0;
@@ -79,8 +78,8 @@ QUtils.FPS = function (minimalist_design) {
 
     /**
      *
-     * @param element
-     * @return {QUtils.module:FPS}
+     * @param {HTMLElement} element
+     * @return {QUtil.FPS}
      */
     this.appendTo = function (element) {
         element.appendChild(this.dom);
@@ -88,14 +87,80 @@ QUtils.FPS = function (minimalist_design) {
     };
 
     /**
-     *
+     * Set Custom Style.
      * @param style
-     * @return {QUtils.module:FPS}
+     * @return {QUtil.FPS}
      */
     this.setStyle = function (style) {
-        if (style !== undefined) for (var prop in style) dom.style[prop] = style[prop];
+        if (style !== undefined) for (var prop in style)
+            if (style.hasOwnProperty(prop)) dom.style[prop] = style[prop];
         return this;
     };
 
     return this;
 };
+
+/**
+ * Canvas and container manipulator.
+ * @return {QUtil.Canvas}
+ * @class
+ * @param {HTMLElement} container
+ * @param {HTMLElement} debugDom
+ */
+QUtil.Canvas = function Canvas(container, debugDom) {
+    var element = document.createElement('canvas');
+
+    this.domDebug = (debugDom !== undefined) ? debugDom : null;
+    this.container = container;
+
+    /**
+     * The canvas element.
+     * @type {HTMLCanvasElement}
+     */
+    this.el = element;
+    this.w = 0;
+    this.h = 0;
+    this.centerX = 0;
+    this.centerY = 0;
+    this.aspect = 0;
+    this.offsetLeft = 0;
+    this.offsetTop = 0;
+
+    this.container.appendChild(this.el);
+
+
+    /**
+     * Refresh.
+     * @return {QUtil.Canvas}
+     */
+    this.updateSize = function () {
+        this.w = this.el.parentElement.clientWidth;
+        this.h = this.el.parentElement.clientHeight;
+        this.el.width = this.w;
+        this.el.height = this.h;
+        this.aspect = this.w / this.h;
+        this.centerX = this.w / 2;
+        this.centerY = this.h / 2;
+        var offset = this.el.getBoundingClientRect();
+        this.offsetLeft = offset.left;
+        this.offsetTop = offset.top;
+        if (this.domDebug !== null) {
+            this.domDebug.innerText = "W: " + this.w + "\nH: " + this.h + "\nA: " + this.aspect.toFixed(4);
+            this.domDebug.innerText += "\n\nOL: " + this.offsetLeft + "\nOT: " + this.offsetTop;
+        }
+
+        return this;
+    };
+
+
+    this.updateSize();
+
+    return this;
+};
+
+
+
+
+
+export default QUtil;
+

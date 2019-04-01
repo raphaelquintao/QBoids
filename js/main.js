@@ -1,6 +1,9 @@
+import * as THREE from './libs/three.module.js';
+import QBoid, {QCrowd} from './QBoid.js';
+import QUtil from "./QUtil.js";
+
+
 // Globals
-var FPS = new QUtils.FPS();
-var SEEKING = false;
 
 function set_events(leader) {
 
@@ -11,7 +14,7 @@ function set_events(leader) {
         window.addEventListener('keydown', function (ev) {
             var speed = 3;
             if (ev.key === 'ArrowUp') {
-                SEEKING = true;
+                QBoid.SEEKING = true;
                 if (ev.ctrlKey) {
                     position.setZ(position.z + speed);
                     rotation.z = 0;
@@ -20,7 +23,7 @@ function set_events(leader) {
                     rotation.z = 0;
                 }
             } else if (ev.key === 'ArrowDown') {
-                SEEKING = true;
+                QBoid.SEEKING = true;
                 if (ev.ctrlKey) {
                     position.setZ(position.z - speed);
                     rotation.z = 0;
@@ -29,11 +32,11 @@ function set_events(leader) {
                     rotation.z = 3.14;
                 }
             } else if (ev.key === 'ArrowLeft') {
-                SEEKING = true;
+                QBoid.SEEKING = true;
                 position.setX(position.x - speed);
                 rotation.z = 3.14 / 2;
             } else if (ev.key === 'ArrowRight') {
-                SEEKING = true;
+                QBoid.SEEKING = true;
                 position.setX(position.x + speed);
                 rotation.z = -3.14 / 2;
             } else if (ev.key === "0") {
@@ -43,7 +46,7 @@ function set_events(leader) {
     }
 
     window.addEventListener('keyup', function (ev) {
-        SEEKING = false;
+        QBoid.SEEKING = false;
         if (ev.key === "+") {
             // console.log(ev);
             crowd.addBoid();
@@ -53,71 +56,54 @@ function set_events(leader) {
     });
 }
 
+
+var crowd = new QCrowd();
+
 var leader = new QBoid(0, 0, 0, "#ff9900");
-leader.velocity.multiplyScalar(0);
 leader.isLeader = true;
-set_events(leader);
+// set_events(leader);
 
-var crowd = new THREE.Group();
+crowd.add(leader);
 
 
-crowd.addBoid = function () {
-    var boid = new QBoid(0, 0, 0);
-    this.add(boid);
-    return boid;
-};
-crowd.removeBoid = function () {
-    if (this.children.length > 0) {
-        if (!this.children[this.children.length - 1].isLeader) {
-            this.children.pop();
-        }
-    }
-};
-crowd.run = function () {
-    this.children.forEach(function (obj) {
-        obj.run();
-    });
-};
 
-// crowd.add(leader);
+set_events();
+
+
+
+// ------------------------
+var FPS = new QUtil.FPS();
+
+
+function main(holder, debug) {
+    var canvas = new QUtil.Canvas(holder, debug);
+
+    var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true, canvas: canvas.el});
+    renderer.setClearColor(0x000000, 0);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(canvas.w, canvas.h, false);
+    renderer.autoClear = false;
 
 
 
 
-function main(holder) {
-    var W = holder.clientWidth;
-    var H = holder.clientHeight;
-    var aspect = W / H;
-    // aspect *= 0.5;
 
-    let c = new Crowd();
-
-
-    console.log(c);
-
-    var scene = new THREE.Scene();
-
-    var camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 10000);
+    var camera = new THREE.PerspectiveCamera(45, canvas.aspect, 0.1, 10000);
     camera.position.z = 200;
+
 
     // var camera2 = new THREE.OrthographicCamera(W / -2, W / 2, H / 2, H / -2, 0.1, 1000);
     // camera2.position.z = 200;
     // camera2.zoom = 1.9;
 
-    var camera2 = new THREE.PerspectiveCamera(75, aspect, 0.1, 10000);
+    var camera2 = new THREE.PerspectiveCamera(75, canvas.aspect, 0.1, 10000);
     camera2.position.z = 200;
     // camera2.position.set(leader.position.x,leader.position.y,leader.position.z);
 
-    var renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
+    var scene = new THREE.Scene();
 
-    renderer.setClearColor(0x000000, 0);
 
-    renderer.setSize(W, H);
-    renderer.autoClear = false;
 
-    holder.appendChild(renderer.domElement);
-
-    console.log(W, H);
 
     var spotLight = new THREE.SpotLight(0xffffff);
     spotLight.castShadow = true;
@@ -140,6 +126,10 @@ function main(holder) {
 
     scene.add(crowd);
 
+    window.addEventListener('resize', function (e) {
+        canvas.updateSize();
+    }, false);
+
 
     // console.log(cube.position.x);
 
@@ -149,7 +139,7 @@ function main(holder) {
 
         crowd.run();
 
-        camera2.lookAt(leader.position);
+        // camera2.lookAt(leader.position);
 
         renderer.clear();
 
@@ -171,7 +161,9 @@ function main(holder) {
 
 window.onload = function () {
     var content = document.getElementById('content');
-    main(content);
+    var debug2 = document.getElementById('debug2');
+
+    main(content, debug2);
 
     FPS.appendTo(content);
 };

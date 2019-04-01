@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.js" mnemonic="3" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="ea650811-d32d-4f73-9b2f-f528432e900d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/start.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/img/fly.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/fly.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/QBoid.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/QBoid.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/QUtil.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/QUtil.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/main.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -25,8 +28,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="144">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
             </state>
           </provider>
         </entry>
@@ -34,10 +37,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/QUtil.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="6" column="9" lean-forward="true" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
+            <state relative-caret-position="378">
+              <caret line="163" selection-start-line="163" selection-end-line="163" />
               <folding>
-                <element signature="e#148#2481#0" />
+                <element signature="e#116#2509#0" />
+                <element signature="n#!!block;n#Canvas#0" />
               </folding>
             </state>
           </provider>
@@ -46,34 +50,40 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="69" column="35" lean-forward="true" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
+            <state relative-caret-position="486">
+              <caret line="76" selection-start-line="76" selection-end-line="76" />
               <folding>
+                <element signature="e#0#48#0" expanded="true" />
                 <element signature="n#!!block;n#set_events#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/QBoid.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1332">
-              <caret line="74" selection-start-line="74" selection-end-line="74" />
+            <state relative-caret-position="27">
+              <caret line="45" column="11" selection-start-line="45" selection-start-column="11" selection-end-line="45" selection-end-column="11" />
               <folding>
-                <element signature="e#2138#2938#0" />
-                <element signature="e#2978#4018#0" />
-                <element signature="e#4059#4631#0" />
-                <element signature="e#4679#5232#0" />
-                <element signature="e#5269#5632#0" />
+                <element signature="n#QCrowd#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/assets/style.css">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1602">
+              <caret line="89" column="28" selection-start-line="89" selection-start-column="28" selection-end-line="89" selection-end-column="28" />
+              <folding>
+                <element signature="e#3868#4988#0" />
+                <element signature="e#5114#5700#0" />
+                <element signature="e#5868#6418#0" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -84,6 +94,8 @@
         <option value="HTML File" />
         <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="React Class Component" />
+        <option value="AMD JavaScript File" />
       </list>
     </option>
   </component>
@@ -91,6 +103,7 @@
     <findStrings>
       <find>this.r</find>
       <find>THREE</find>
+      <find>crowd</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -102,13 +115,16 @@
         <option value="$PROJECT_DIR$/js/util.js" />
         <option value="$PROJECT_DIR$/js/Boid.js" />
         <option value="$PROJECT_DIR$/js/old.js" />
-        <option value="$PROJECT_DIR$/js/QUtil.js" />
         <option value="$PROJECT_DIR$/style.css" />
         <option value="$PROJECT_DIR$/start.sh" />
-        <option value="$PROJECT_DIR$/js/QBoid.js" />
-        <option value="$PROJECT_DIR$/js/main.js" />
-        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch.js" />
         <option value="$PROJECT_DIR$/assets/style.css" />
+        <option value="$PROJECT_DIR$/js/libs/QUtil.js" />
+        <option value="$PROJECT_DIR$/js/asd.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/QUtil.js" />
+        <option value="$PROJECT_DIR$/js/main.js" />
+        <option value="$PROJECT_DIR$/js/QBoid.js" />
       </list>
     </option>
   </component>
@@ -158,6 +174,7 @@
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JavaScript" />
     <property name="js.buildTools.grunt.grunt-cli.package" value="" />
     <property name="js.buildTools.gulp.gulp_package_dir" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../QPlayer" />
@@ -166,11 +183,14 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.JavaScript" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/js" />
+      <recent name="$PROJECT_DIR$/js/src" />
+      <recent name="$PROJECT_DIR$/js/libs" />
       <recent name="$PROJECT_DIR$/assets" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -189,7 +209,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JavaScript Debug.index.html">
     <configuration name="Start" type="BashConfigurationType" factoryName="Bash">
       <module name="Boids" />
       <option name="INTERPRETER_OPTIONS" value="bash" />
@@ -202,6 +222,9 @@
       <envs>
         <env name="NPM" value="$USER_HOME$/.nvm/versions/node/v8.11.2/bin" />
       </envs>
+      <method v="2" />
+    </configuration>
+    <configuration name="index.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/Boids/index.html" useBuiltInWebServerPort="true">
       <method v="2" />
     </configuration>
     <configuration default="true" type="js.build_tools.grunt">
@@ -218,6 +241,15 @@
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Bash.Start" />
+      <item itemvalue="JavaScript Debug.index.html" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JavaScript Debug.index.html" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -232,23 +264,30 @@
       <workItem from="1552452342351" duration="2855000" />
       <workItem from="1552455212661" duration="50745000" />
       <workItem from="1554080319522" duration="599000" />
-      <workItem from="1554081652442" duration="12008000" />
+      <workItem from="1554081652442" duration="44611000" />
     </task>
+    <task id="LOCAL-00001" summary="A">
+      <created>1554100007362</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1554100007362</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66207000" />
+    <option name="totallyTimeSpent" value="98810000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1969" y="-4" width="1871" height="1084" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13203463" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.116883114" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="TypeScript" />
+      <window_info anchor="bottom" id="TypeScript" weight="0.32925585" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3295099" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32925585" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32925585" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -265,6 +304,10 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="A" />
+    <option name="LAST_COMMIT_MESSAGE" value="A" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/js/old.js" />
@@ -292,56 +335,73 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/QUtil.js">
+    <entry file="file://$PROJECT_DIR$/js/asd.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="6" column="9" lean-forward="true" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
-          <folding>
-            <element signature="e#148#2481#0" />
-          </folding>
+        <state relative-caret-position="792">
+          <caret line="44" column="12" selection-start-line="44" selection-start-column="12" selection-end-line="44" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/libs/three.module.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-759449">
-          <caret line="5707" column="32" selection-start-line="5707" selection-start-column="27" selection-end-line="5707" selection-end-column="32" />
+        <state relative-caret-position="-477426">
+          <caret line="21321" column="9" selection-start-line="21321" selection-start-column="9" selection-end-line="21321" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/QBoid.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1332">
-          <caret line="74" selection-start-line="74" selection-end-line="74" />
+        <state relative-caret-position="144">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/QUtil.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="163" selection-start-line="163" selection-end-line="163" />
           <folding>
-            <element signature="e#2138#2938#0" />
-            <element signature="e#2978#4018#0" />
-            <element signature="e#4059#4631#0" />
-            <element signature="e#4679#5232#0" />
-            <element signature="e#5269#5632#0" />
+            <element signature="e#116#2509#0" />
+            <element signature="n#!!block;n#Canvas#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="69" column="35" lean-forward="true" selection-start-line="69" selection-start-column="35" selection-end-line="69" selection-end-column="35" />
+        <state relative-caret-position="486">
+          <caret line="76" selection-start-line="76" selection-end-line="76" />
           <folding>
+            <element signature="e#0#48#0" expanded="true" />
             <element signature="n#!!block;n#set_events#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="1602">
+          <caret line="89" column="28" selection-start-line="89" selection-start-column="28" selection-end-line="89" selection-end-column="28" />
+          <folding>
+            <element signature="e#3868#4988#0" />
+            <element signature="e#5114#5700#0" />
+            <element signature="e#5868#6418#0" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/style.css">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/js/QBoid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="45" column="11" selection-start-line="45" selection-start-column="11" selection-end-line="45" selection-end-column="11" />
+          <folding>
+            <element signature="n#QCrowd#0" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
 </project>
