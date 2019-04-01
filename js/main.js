@@ -79,7 +79,9 @@ crowd.run = function () {
     });
 };
 
-crowd.add(leader);
+// crowd.add(leader);
+
+
 
 
 function main(holder) {
@@ -87,6 +89,11 @@ function main(holder) {
     var H = holder.clientHeight;
     var aspect = W / H;
     // aspect *= 0.5;
+
+    let c = new Crowd();
+
+
+    console.log(c);
 
     var scene = new THREE.Scene();
 
@@ -138,7 +145,6 @@ function main(holder) {
 
     var render = function () {
         requestAnimationFrame(render);
-
 
 
         crowd.run();

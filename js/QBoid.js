@@ -70,6 +70,9 @@ function QBoid(x, y, z, color) {
         if (this.position.y > height) this.velocity.y *= -1;
     };
 
+
+
+
     this.align = function (crowd) {
         var others = crowd.children;
         var ndist = 5000.0;
@@ -135,7 +138,6 @@ function QBoid(x, y, z, color) {
 
         return steer;
     };
-
 
     this.cohesion = function (crowd) {
         var others = crowd.children;
