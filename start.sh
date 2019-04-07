@@ -3,5 +3,5 @@
 
 PATH=${PATH}:${NPM}
 
-browser-sync --no-notify -w
+browser-sync --no-notify --no-open -w
 

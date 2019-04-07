@@ -20,19 +20,22 @@ body {
     overflow: hidden;
     margin: 20px 20px 0;
     position: fixed;
+    resize: both;
+    transition: width 1ms, height 1ms;
+    /*font-family: monospace;*/
 
 }
 
 .debug {
     position: absolute;
-    background-color: hsla(0, 0%, 80%, 0.85);
-    color: hsl(0, 0%, 15%);
+    background-color: hsla(0, 0%, 80%, 0.8);
+    color: #111;
     margin: 25px;
     padding: 5px 7px;
     border-radius: 5px;
     white-space: pre;
     font-family: monospace;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 #debug1 {
