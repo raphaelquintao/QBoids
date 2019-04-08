@@ -38,7 +38,7 @@ class Application {
         
         this.FPS.appendTo(content);
         this.canvas = new QUtil.Canvas(content, debug2);
-
+        
         
         
         // window.addEventListener('resize', ev => this.canvas.updateSize());
@@ -58,6 +58,7 @@ class Application {
     createCameras() {
         this.camera = new THREE.PerspectiveCamera(45, this.canvas.aspect, 0.1, 10000);
         this.camera.position.z = 200;
+        this.controls = new OrbitControls(this.camera);
     };
     
     createLights() {
@@ -72,6 +73,8 @@ class Application {
         requestAnimationFrame(() => this.render());
         
         this.objects.forEach(object => object.run());
+        
+        this.controls.update();
         
         this.renderer.render(this.scene, this.camera);
         
@@ -92,3 +95,16 @@ app.add(new Cube({width: 10, height: 10, depth: 10}));
 var crowd = new QCrowd();
 crowd.add(new QBoid(0, 0, 0, "#ff9900", true));
 app.add(crowd);
+
+
+
+
+
+
+
+
+
+
+
+
+
