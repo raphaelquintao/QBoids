@@ -53,7 +53,7 @@ body {
 
 #debug2 {
     bottom: 0;
-    left: 0;
+    left: 50%;
 }
 
 #controls {
@@ -61,11 +61,15 @@ body {
     margin: 0px;
     top: 0;
     left: 0;
-    bottom: 0;
-    overflow-y: scroll;
+    /*bottom: 0;*/
+    /*overflow-y: scroll;*/
     pointer-events: visibleFill;
     padding-right: 20px;
-
+    z-index: 0;
 }
 
+#info{
+    bottom: 0;
+    left: 0;
+}
 

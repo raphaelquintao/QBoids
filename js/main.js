@@ -46,7 +46,11 @@ class Cube extends Mesh {
     }
 }
 
-
+function FizzyText() {
+    this.message = 'dat.gui';
+    this.speed = 0.6;
+    this.displayOutline = false;
+}
 
 class Application {
     constructor() {
@@ -59,8 +63,8 @@ class Application {
         this.currentCam = 0;
         this.createCanvas();
         this.createScene();
-        this.createLights();
         this.createWorld();
+        this.createLights();
         this.createCameras();
         this.createEvents();
         this.render();
@@ -75,27 +79,38 @@ class Application {
         this.FPS = new QUtil.FPS().appendTo(content);
         this.Canvas = new QUtil.Canvas(content, debug);
         
-        let gui = new dat.GUI({autoPlace: false});
-        gui.domElement.style.float = 'left';
-        controls.append(gui.domElement);
+        this.gui = new dat.GUI({autoPlace: false});
+        this.gui.domElement.style.float = 'left';
+        controls.append(this.gui.domElement);
+        controls.addEventListener("mouseenter", ev => {
+            this.controls.enableRotate = false;
+        });
+        controls.addEventListener("mouseleave", ev => {
+            this.controls.enableRotate = true;
+        });
         
         
-        
-        function FizzyText() {
-            this.message = 'dat.gui';
-            this.speed = 0.6;
-            this.displayOutline = false;
-        }
         
         let text = new FizzyText();
         
-        let test = gui.add(text, 'speed', 0, 2);
-        test.onChange(value => {
-            this.Boids.config.maxspeed = value;
-        });
+        // let sep = gui.add(text, 'separation', 0, 2);
+        // sep.onChange(value => {
+        //     this.Boids.config.separation = value;
+        // });
+        //
+        // let alig = gui.add(text, 'alignment', 0, 2);
+        // alig.onChange(value => {
+        //     this.Boids.config.alignment = value;
+        // });
+        //
+        // let coer = gui.add(text, 'cohesion', 0, 2);
+        // coer.onChange(value => {
+        //     this.Boids.config.cohesion = value;
+        // });
         
-        // gui.add(text, 'speed', 0, 2);
+        // this.gui.add(text, 'speed', 0, 2);
         
+      
         
         window.addEventListener('resize', ev => {
             console.log(`Resize`);
@@ -148,6 +163,29 @@ class Application {
         this.scene.add(this.Boids);
         
         this.add(new Cube(this.Boids.config.bounds));
+
+        for (let x = 0; x < 10; x++) this.Boids.addRandom();
+        
+       // Gui
+    
+    
+        let sep = this.gui.add({message:"separation", separation: this.Boids.config.separation, displayOutline: false}, 'separation',1, 50);
+        let alig = this.gui.add({message:"alignment", alignment: this.Boids.config.alignment, displayOutline: false}, 'alignment',1, 50);
+        let coer =this.gui.add({message:"cohesion", cohesion: this.Boids.config.cohesion, displayOutline: false}, 'cohesion',1, 50);
+        let s =this.gui.add({message:"speed", maxspeed: this.Boids.config.maxspeed, displayOutline: false}, 'maxspeed',0, 10);
+        let f =this.gui.add({message:"force", maxforce: this.Boids.config.maxforce, displayOutline: false}, 'maxforce',0, 10);
+
+        sep.onChange(value => {
+            this.Boids.config.separation = value;
+        });
+
+        alig.onChange(value => {
+            this.Boids.config.alignment = value;
+        });
+
+        coer.onChange(value => {
+            this.Boids.config.cohesion = value;
+        });
         
         
     }
@@ -155,28 +193,30 @@ class Application {
     createCameras() {
         var debug2 = document.getElementById('debug2');
         
+        
         var camera = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 10000);
         camera.name = "Static";
         camera.position.z = 200;
-        camera.action = function () {
-        
+        this.controls = new OrbitControls(camera);
+        this.controls.enableKeys = false;
+        this.controls.enabled = false;
+        camera.action = () => {
+            this.controls.enabled = true;
         };
+        
         this.cameras[0] = camera;
-
-        
-        // this.controls = new OrbitControls(camera);
-        // this.controls.enableKeys = false;
-        // this.controls.enabled = false;
         
         
-        var c2 = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 1000);
+        
+        
+        
+        var c2 = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 200);
         c2.name = "Im Boid";
-        c2.up = new THREE.Vector3(0, 1, 0);
+        c2.up = new THREE.Vector3(1, 1, 1);
         c2.action = () => {
             let myb = this.Boids.children[this.Boids.children.length - 1];
             c2.position.set(myb.position.clone());
             c2.lookAt(this.Boids.centroid());
-            
         };
         
         
@@ -198,17 +238,20 @@ class Application {
         
         
         
-        const c4 = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 10000);
-        c4.name = "Cam Leader";
-        c4.position.z = 0;
-        c4.up = new THREE.Vector3(0, 0, 1);
-        c4.action = () => {
-            c4.lookAt(this.Boids.leader.position);
+        const c3 = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 10000);
+        c3.name = "Cam Leader";
+        c3.position.z = 0;
+        c3.up = new THREE.Vector3(0, 1, 0);
+        c3.action = () => {
+            c3.lookAt(this.Boids.leader.position);
             let npos = this.Boids.leader.position.clone();
-            c4.position.set((npos.subScalar(10)));
+            c3.position.set(npos.subScalar(10));
         };
         
-        this.cameras[3] = c4;
+        this.cameras[3] = c3;
+    
+    
+        this.cameras[4] = camera;
         
         
         
