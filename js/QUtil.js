@@ -11,13 +11,13 @@ class FPS {
         this.frames = 0;
         this.fps = 0;
         this.ms = 0;
-        var min = Infinity, max = 0;
+        let min = Infinity, max = 0;
         
         mode %= 3;
         
-        var dom = document.createElement('div');
+        const dom = document.createElement('div');
         
-        var css = {
+        const css = {
             position: 'absolute',
             top: 0, right: 0,
             margin: '5px',
@@ -51,14 +51,14 @@ class FPS {
             this.doupdate();
         };
         
-        for (var prop in css) dom.style[prop] = css[prop];
+        for (let prop in css) dom.style[prop] = css[prop];
         
         
         this.doupdate = () => {
             min = Math.min(min, this.fps);
             max = Math.max(max, this.fps);
             
-            var text = `${this.fps} FPS`;
+            let text = `${this.fps} FPS`;
             
             if (mode >= 1) text = `(${min}-${max}) ${this.fps} FPS`;
             if (mode >= 2) text += `\n${this.ms} MS `;
@@ -82,14 +82,14 @@ class FPS {
     }
     
     setStyle(style) {
-        if (style !== undefined) for (var prop in style)
+        if (style !== undefined) for (let prop in style)
             if (style.hasOwnProperty(prop)) this.dom.style[prop] = style[prop];
         return this;
     }
     
     end() {
         this.frames++;
-        var time = Date.now();
+        const time = Date.now();
         this.ms = (time - this.beginTime);
         if (time > this.prevTime + 1000) {
             this.fps = Math.round((this.frames * 1000) / (time - this.prevTime));
@@ -114,7 +114,7 @@ class Canvas {
      * @returns {Canvas}
      */
     constructor(container, debugDom) {
-        var element = document.createElement('canvas');
+        const element = document.createElement('Canvas');
         
         this.domDebug = (debugDom !== undefined) ? debugDom : null;
         this.container = container;
@@ -136,8 +136,6 @@ class Canvas {
         
         
         this.updateSize();
-        
-        return this;
     }
     
     updateSize() {
@@ -149,7 +147,7 @@ class Canvas {
         this.aspect = this.w / this.h;
         this.centerX = this.w / 2;
         this.centerY = this.h / 2;
-        var offset = this.el.getBoundingClientRect();
+        const offset = this.el.getBoundingClientRect();
         this.offsetLeft = offset.left;
         this.offsetTop = offset.top;
         if (this.domDebug !== null) {
@@ -161,8 +159,47 @@ class Canvas {
     }
 }
 
+class Camera {
+    
+    /**
+     * Z position based on height
+     * @param cam
+     * @param height
+     * @return {number}
+     */
+    distance(cam, height) {
+        return height / 2 / Math.tan(Math.PI * cam.fov / 360);
+    }
+    
+    /**
+     * Current camera view size based on z position.
+     * @param {THREE.Camera} cam
+     * @param {number} dist
+     * @param {boolean} log
+     * @return {{w: number, h: number, a: number, d: number}}
+     */
+    viewSize(cam, dist, log) {
+        if (log === undefined) log = false;
+        
+        var vFOV = cam.fov * Math.PI / 180;        // convert vertical fov to radians
+        var height = 2 * Math.tan(vFOV / 2) * dist; // visible height
+        
+        var aspect = cam.aspect;
+        var width = height * aspect;                  // visible width
+        
+        if (log) console.log("W: ", width, "\nH: ", height, "\nA: ", aspect, "\nD: ", dist);
+        
+        return {
+            w: width,
+            h: height,
+            a: aspect,
+            d: dist
+        }
+    }
+    
+}
 
-export default {FPS, Canvas};
+export default {FPS, Canvas, Camera};
 
 
 

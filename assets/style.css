@@ -1,49 +1,71 @@
-html, body {
+html {
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
+    display: flex;
     color: hsl(0, 0%, 85%);
-    background-color: #121212;
+    /*background-color: #292929;*/
+    /*background-color: #262626;*/
+    background-color: #2b2b2b;
+    /*background-color: #4D4D4D;*/
 }
 
 body {
-    background-color: #333333;
+    position: relative;
+    flex: 0 100%;
+    margin: 20px;
+    padding: 0px;
+    overflow: hidden;
+    background: red;
+    display: flex;
+    /*border: 10px solid rgba(0, 0, 0, 1);*/
 }
 
 #content {
-    width: calc(100% - 40px);
-    height: calc(100% - 40px);
-    background-color: #464646;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
-    border-radius: 5px;
+    flex: 1;
+    position: relative;
+    background-color: #333333;
+    /*background-color: #000000;*/
+    /*box-shadow: inset 0px 0px 4px 1px rgba(0, 0, 0, 0.5);*/
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+    border: 0px solid rgba(0, 0, 0, 1);
+    border-radius: 0px;
     overflow: hidden;
-    margin: 20px 20px 0;
-    position: fixed;
-    resize: both;
-    transition: width 1ms, height 1ms;
-    /*font-family: monospace;*/
-
 }
 
 .debug {
     position: absolute;
-    background-color: hsla(0, 0%, 80%, 0.8);
-    color: #111;
-    margin: 25px;
-    padding: 5px 7px;
-    border-radius: 5px;
+    /*background-color: hsla(0, 0%, 80%, 0.8);*/
+    /*color: #111;*/
+    margin: 5px;
+    padding: 5px 5px;
+    border-radius: 0px;
     white-space: pre;
     font-family: monospace;
     font-size: 14px;
 }
 
-#debug1 {
-    top: 0;
-    left: 0;
+#debug {
+    bottom: 0;
+    right: 0;
 }
 
 #debug2 {
     bottom: 0;
     left: 0;
 }
+
+#controls {
+    position: absolute;
+    margin: 0px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: scroll;
+    pointer-events: visibleFill;
+    padding-right: 20px;
+
+}
+
+
