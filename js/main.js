@@ -20,7 +20,7 @@ class Cube extends Mesh {
             depthWrite: true,
             side: THREE.DoubleSide,
             emissive: 0x000000,
-            color: 0x2194CE,
+            color: 0xffffff,
             opacity: 0.4,
             reflectivity: 0.9,
             refractionRatio: 1
