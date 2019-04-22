@@ -294,7 +294,7 @@ export class QFly extends Mesh {
         this.velocity.clampScalar(-this.config.maxspeed, this.config.maxspeed);
         
         this.position.add(this.velocity);
-        this.acceleration.multiplyScalar(0);
+        this.acceleration.multiplyScalar(0.5);
         
         
         const head = this.velocity.clone();
