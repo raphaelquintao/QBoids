@@ -54,11 +54,13 @@ function FizzyText() {
 
 class Application {
     constructor() {
+        this.overControls = false;
         this.objects = [];
         this.cameras = [];
         
         this.Boids = new QBoids();
-        this.debug2 = document.getElementById('debug2');
+        this.infoTop = document.getElementById('infoTop');
+        this.infoCam = document.getElementById('infoCam');
         
         this.currentCam = 0;
         this.createCanvas();
@@ -79,38 +81,20 @@ class Application {
         this.FPS = new QUtil.FPS().appendTo(content);
         this.Canvas = new QUtil.Canvas(content, debug);
         
-        this.gui = new dat.GUI({autoPlace: false});
+        this.gui = new dat.GUI({autoPlace: false, name: 'QBoids '});
         this.gui.domElement.style.float = 'left';
+        
         controls.append(this.gui.domElement);
         controls.addEventListener("mouseenter", ev => {
-            this.controls.enableRotate = false;
+            this.overControls = true;
         });
         controls.addEventListener("mouseleave", ev => {
-            this.controls.enableRotate = true;
+            this.overControls = false;
         });
         
         
         
-        let text = new FizzyText();
         
-        // let sep = gui.add(text, 'separation', 0, 2);
-        // sep.onChange(value => {
-        //     this.Boids.config.separation = value;
-        // });
-        //
-        // let alig = gui.add(text, 'alignment', 0, 2);
-        // alig.onChange(value => {
-        //     this.Boids.config.alignment = value;
-        // });
-        //
-        // let coer = gui.add(text, 'cohesion', 0, 2);
-        // coer.onChange(value => {
-        //     this.Boids.config.cohesion = value;
-        // });
-        
-        // this.gui.add(text, 'speed', 0, 2);
-        
-      
         
         window.addEventListener('resize', ev => {
             console.log(`Resize`);
@@ -118,6 +102,11 @@ class Application {
             
             this.renderer.setSize(this.Canvas.w, this.Canvas.h);
             
+            this.cameras.forEach(cam => {
+                /** @type {PerspectiveCamera} */
+                cam.aspect = this.Canvas.aspect;
+                cam.updateProjectionMatrix();
+            });
             
         });
         
@@ -160,116 +149,169 @@ class Application {
     createWorld() {
         this.Boids.config.bounds = {x: 100, y: 50, z: 50};
         
-        this.scene.add(this.Boids);
+        this.add(this.Boids);
         
         this.add(new Cube(this.Boids.config.bounds));
-
+        
         for (let x = 0; x < 10; x++) this.Boids.addRandom();
         
-       // Gui
-    
-    
-        let sep = this.gui.add({message:"separation", separation: this.Boids.config.separation, displayOutline: false}, 'separation',1, 50);
-        let alig = this.gui.add({message:"alignment", alignment: this.Boids.config.alignment, displayOutline: false}, 'alignment',1, 50);
-        let coer =this.gui.add({message:"cohesion", cohesion: this.Boids.config.cohesion, displayOutline: false}, 'cohesion',1, 50);
-        let s =this.gui.add({message:"speed", maxspeed: this.Boids.config.maxspeed, displayOutline: false}, 'maxspeed',0, 10);
-        let f =this.gui.add({message:"force", maxforce: this.Boids.config.maxforce, displayOutline: false}, 'maxforce',0, 10);
-
+        // Gui
+        const gui = this.gui;
+        
+        
+        let opt = this.gui.addFolder('Options');
+        opt.open();
+        
+        
+        let sep = opt.add({separation: this.Boids.config.separation}, 'separation', 1, 50, 1);
+        let ali = opt.add({alignment: this.Boids.config.alignment}, 'alignment', 1, 50, 1);
+        let coe = opt.add({cohesion: this.Boids.config.cohesion}, 'cohesion', 1, 50, 1);
+        let spd = opt.add({maxspeed: this.Boids.config.maxspeed}, 'maxspeed', 0.1, 2, 0.1);
+        let frc = opt.add({maxforce: this.Boids.config.maxforce}, 'maxforce', 0.1, 5, 0.01);
+        
         sep.onChange(value => {
             this.Boids.config.separation = value;
         });
-
-        alig.onChange(value => {
+        
+        ali.onChange(value => {
             this.Boids.config.alignment = value;
         });
-
-        coer.onChange(value => {
+        
+        coe.onChange(value => {
             this.Boids.config.cohesion = value;
         });
         
+        spd.onChange(value => {
+            this.Boids.config.maxspeed = value;
+        });
+        
+        frc.onChange(value => {
+            this.Boids.config.maxforce = value;
+        });
+        
+        let actions = {
+            'Add 1': () => {
+                this.Boids.addRandom()
+            },
+            'Add 10': () => {
+                this.Boids.addVarious(10)
+            },
+            'Remove 1': () => {
+                this.Boids.removeRandom()
+            },
+            'Remove 10': () => {
+                this.Boids.removeVarious(10)
+            }
+        };
+        
+        let acts = this.gui.addFolder('Actions');
+        for (let actionsKey in actions) {
+            acts.add(actions, actionsKey);
+        }
         
     }
     
     createCameras() {
-        var debug2 = document.getElementById('debug2');
+        // var infoCam = document.getElementById('infoCam');
         
         
-        var camera = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 10000);
-        camera.name = "Static";
-        camera.position.z = 200;
-        this.controls = new OrbitControls(camera);
+        const camStatic = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 10000);
+        camStatic.name = "Static";
+        camStatic.info = "Overview Camera";
+        camStatic.position.z = 200;
+        this.controls = new OrbitControls(camStatic);
         this.controls.enableKeys = false;
         this.controls.enabled = false;
-        camera.action = () => {
-            this.controls.enabled = true;
+        camStatic.action = () => {
+            this.controls.enabled = !this.overControls;
         };
         
-        this.cameras[0] = camera;
+        this.cameras[0] = camStatic;
+        
+
         
         
         
-        
-        
-        var c2 = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 200);
-        c2.name = "Im Boid";
-        c2.up = new THREE.Vector3(1, 1, 1);
-        c2.action = () => {
-            let myb = this.Boids.children[this.Boids.children.length - 1];
-            c2.position.set(myb.position.clone());
-            c2.lookAt(this.Boids.centroid());
+        var camBoid = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 10000);
+        camBoid.name = "Stare Centroid";
+        camBoid.info = "Follow flock and look at its centroid";
+        camBoid.position.z = 200;
+        camBoid.up = new THREE.Vector3(0, 1, 0);
+        camBoid.action = () => {
+            // let myb = this.Boids.children[this.Boids.children.length - 1];
+            // camBoid.position.set(myb.position.clone());
+            camBoid.lookAt(this.Boids.centroid());
+            // camBoid.position.z = QUtil.Camera.distance(camBoid, 100);
+            
+            // this.Boids.children;
+            // console.log(this.Boids.boundingBox);
         };
         
+        this.cameras[1] = camBoid;
         
-        // this.Boids.add(c2);
         
-        this.cameras[1] = c2;
+        
+        
+        
+        const camLeader = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 10000);
+        camLeader.name = "Look Leader";
+        camLeader.info = "Follow leader and look at his position";
+        camLeader.position.z = 200;
+        camLeader.up = new THREE.Vector3(0, 1, 0);
+        camLeader.action = () => {
+            camLeader.lookAt(this.Boids.leader.position);
+            // let npos = this.Boids.leader.position.clone();
+            // camLeader.position.set(npos.subScalar(10));
+        };
+        
+        this.cameras[2] = camLeader;
         
         
         
         const camCentroid = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 10000);
-        camCentroid.name = "Cam centroid";
+        camCentroid.name = "Fixed Centroid";
+        camCentroid.info = "Fixed on center and looking at flock centroid";
         camCentroid.position.z = 0;
         camCentroid.up = new THREE.Vector3(0, 1, 0);
         camCentroid.action = () => {
             camCentroid.lookAt(this.Boids.centroid());
         };
         
-        this.cameras[2] = camCentroid;
+        this.cameras[3] = camCentroid;
         
-        
-        
-        const c3 = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 10000);
-        c3.name = "Cam Leader";
-        c3.position.z = 0;
-        c3.up = new THREE.Vector3(0, 1, 0);
-        c3.action = () => {
-            c3.lookAt(this.Boids.leader.position);
-            let npos = this.Boids.leader.position.clone();
-            c3.position.set(npos.subScalar(10));
-        };
-        
-        this.cameras[3] = c3;
-    
-    
-        this.cameras[4] = camera;
+        // this.cameras[4] = camStatic;
         
         
         
         
         
         this.currentCam = 0;
+        
+        
+        let cams = this.gui.addFolder('Cameras');
+        cams.open();
+        
+        this.cameras.forEach((value, index) => {
+            let action = {};
+            action[value.name] = () => {
+                this.currentCam = index;
+            };
+            
+            cams.add(action, value.name);
+        });
+        
     };
     
     
     createEvents() {
         
         window.addEventListener('keydown', (ev) => {
+            if (this.overControls) return;
             if (ev.key === "q") {
                 // this.controls.enabled = true;
                 // document.body.style.cursor = "move";
-            } else if (ev.key === "w") {
-                // this.controls.reset();
-                // document.body.style.cursor = "default";
+            } else if (ev.key === "r") {
+                this.controls.reset();
                 
                 
             } else if (ev.key === 'ArrowUp') {
@@ -285,18 +327,16 @@ class Application {
         });
         
         window.addEventListener('keyup', (ev) => {
+            if (this.overControls) return;
             if (ev.key === "q") {
                 // this.controls.enabled = false;
                 // document.body.style.cursor = "default";
-            } else if (ev.key === "+") {
-                if (ev.shiftKey)
-                    for (let x = 0; x < 10; x++) this.Boids.addRandom();
+            } else if (ev.key === "+" || ev.key === "=") {
+                if (ev.shiftKey) this.Boids.addVarious(10);
                 else this.Boids.addRandom();
             } else if (ev.key === "-") {
-                if (ev.shiftKey)
-                    for (let x = 0; x < 10; x++) this.Boids.removeRandom();
+                if (ev.shiftKey) this.Boids.removeVarious(10);
                 else this.Boids.removeRandom();
-                
                 
             } else if (ev.key === "0") {
                 this.currentCam = 0;
@@ -306,9 +346,26 @@ class Application {
                 this.currentCam = 2;
             } else if (ev.key === "3") {
                 this.currentCam = 3;
-            } else if (ev.key === "4") {
-                this.currentCam = 4;
             }
+        });
+        
+        window.addEventListener('wheel', ev => {
+            if (this.overControls) return;
+            
+            /** @type {PerspectiveCamera} */
+            let cam = this.cameras[this.currentCam];
+            
+            if (ev.deltaY > 0) {
+                // console.log('Scroll Down');
+                cam.zoom -= 0.1;
+            } else {
+                // console.log('Scroll Up');
+                cam.zoom += 0.1;
+            }
+            if (cam.zoom < 1) cam.zoom = 1;
+            
+            cam.updateProjectionMatrix();
+            
         });
         
     }
@@ -322,17 +379,16 @@ class Application {
             if (obj.update) obj.update();
         });
         
-        this.Boids.update();
         
-        // this.controls.update();
-        
-        // this.cameras[1].lookAt(this.crowd.leader.position);
-        
-        // this.cameras[2].lookAt(this.crowd.leader.centroid());
         let cam = this.cameras[this.currentCam];
         if (cam.action) cam.action();
         
-        this.debug2.innerText = cam.name;
+        // this.infoCam.innerText = 'Camera: ';
+        this.infoCam.innerHTML = (cam.name) ? cam.name : 'No Name';
+        this.infoCam.innerHTML += (cam.info) ? `<span><br>${cam.info}</span>` : '';
+        
+        this.infoTop.innerText = this.Boids.count + ' Boids';
+        
         
         this.renderer.render(this.scene, cam);
         
@@ -349,7 +405,7 @@ class Application {
 var app = new Application();
 
 
-
+window.focus();
 
 
 

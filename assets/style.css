@@ -49,11 +49,25 @@ body {
 #debug {
     bottom: 0;
     right: 0;
+    opacity: 0.5;
 }
 
-#debug2 {
+#infoTop {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#infoCam {
     bottom: 0;
     left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    white-space: normal;
+}
+
+#infoCam span {
+    opacity: 0.5;
 }
 
 #controls {
@@ -68,7 +82,7 @@ body {
     z-index: 0;
 }
 
-#info{
+#info {
     bottom: 0;
     left: 0;
 }

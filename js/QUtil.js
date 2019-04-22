@@ -167,7 +167,7 @@ class Camera {
      * @param height
      * @return {number}
      */
-    distance(cam, height) {
+    static distance(cam, height) {
         return height / 2 / Math.tan(Math.PI * cam.fov / 360);
     }
     
@@ -178,7 +178,7 @@ class Camera {
      * @param {boolean} log
      * @return {{w: number, h: number, a: number, d: number}}
      */
-    viewSize(cam, dist, log) {
+    static viewSize(cam, dist, log) {
         if (log === undefined) log = false;
         
         var vFOV = cam.fov * Math.PI / 180;        // convert vertical fov to radians

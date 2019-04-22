@@ -14,7 +14,7 @@ export class QBoids extends Object3D {
             alignment: 15,
             cohesion: 15,
             maxspeed: 0.6,
-            maxforce: 0.2,
+            maxforce: 0.15,
             bounds: {x: 50, y: 50, z: 50}
         };
         
@@ -24,6 +24,9 @@ export class QBoids extends Object3D {
         
     }
     
+    get count(){
+        return this.children.length;
+    }
     
     add(boid = new QBoids()) {
         boid.config = this.config;
@@ -56,6 +59,14 @@ export class QBoids extends Object3D {
         if (this.children.length > 0)
             if (!this.children[this.children.length - 1].isLeader)
                 this.children.pop();
+    }
+    
+    addVarious(count = 10){
+        for (let x = 0; x < count; x++) this.addRandom();
+    }
+    
+    removeVarious(count = 10){
+        for (let x = 0; x < count; x++) this.removeRandom();
     }
     
     update() {

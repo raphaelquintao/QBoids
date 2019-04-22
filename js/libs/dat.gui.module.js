@@ -1682,6 +1682,11 @@ var autoPlaceVirgin = true;
 var autoPlaceContainer = void 0;
 var hide = false;
 var hideableGuis = [];
+/**
+ *
+ * @param {GUIParams} pars
+ * @constructor
+ */
 var GUI = function GUI(pars) {
   var _this = this;
   var params = pars || {};
@@ -2509,6 +2514,7 @@ var controllers = {
 };
 var dom$1 = { dom: dom };
 var gui = { GUI: GUI };
+
 var GUI$1 = GUI;
 var index = {
   color: color,
