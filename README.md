@@ -1,5 +1,9 @@
-# QBoids
-An implementation of Boids algorithm to simulate the flocking behavior of birds. Each boid steers itself based on rules of separation, alignment and cohesion. 
+QBoids
+====
+
+Experimental interative WebGL implementation of the Craig Reynold's flocking behavior simulator Boids algotithm, with Three.js
+Each boid steers itself based on rules of separation, alignment and cohesion.
+
 
 * Take a look - https://raphaelquintao.github.io/QBoids/
 
