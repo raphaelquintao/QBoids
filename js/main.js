@@ -1,11 +1,11 @@
 import * as THREE from './libs/three.module.js';
 import OrbitControls from './libs/OrbitControls.js';
 import QUtil from "./QUtil.js";
-import {QFly, QBoids} from "./QBoids.js";
-import {Mesh} from "./libs/three.module.js";
+import { QFly, QBoids } from "./QBoids.js";
+import { Mesh } from "./libs/three.module.js";
 import * as dat from './libs/dat.gui.module.js';
-import {MeshLambertMaterial} from "./libs/three.module.js";
-import {TrianglesDrawMode} from "./libs/three.module.js";
+import { MeshLambertMaterial } from "./libs/three.module.js";
+import { TrianglesDrawMode } from "./libs/three.module.js";
 
 class Cube extends Mesh {
     
@@ -13,28 +13,33 @@ class Cube extends Mesh {
         super();
         
         this.geometry = new THREE.BoxGeometry(limit.x * 2, limit.y * 2, limit.z * 2, 16);
+        // this.geometry = new THREE.SphereGeometry(limit.z *2);
         
         this.material = new MeshLambertMaterial({
             transparent: true,
             depthTest: true,
             depthWrite: true,
-            side: THREE.DoubleSide,
-            emissive: 0x000000,
+            side: THREE.BackSide,
+            // side: THREE.FrontSide,
+            // emissive: 0xff9900,
             color: 0xffffff,
-            opacity: 0.4,
+            opacity: 1,
             reflectivity: 0.9,
             refractionRatio: 1
         });
         
-        this.drawMode = TrianglesDrawMode;
+        // this.drawMode = TrianglesDrawMode;
         this.updateMorphTargets();
         
         // this.material = new THREE.MeshStandardMaterial({color: 0xfcd4eb, side: THREE.BackSide});
         
-        // this.material.color = new THREE.Color(0x007289);
+        
+        // this.material.color = new THREE.Color(0x595469);
+        // this.material.color = new THREE.Color(0xfcd4eb);
+        // this.material.color = new THREE.Color(0x5D487E);
         
         
-        // this.receiveShadow = true;
+        this.receiveShadow = true;
         // this.castShadow = true;
         
     }
@@ -54,6 +59,7 @@ function FizzyText() {
 
 class Application {
     constructor() {
+        console.log(`Thee.js - ${THREE.REVISION}`);
         this.overControls = false;
         this.objects = [];
         this.cameras = [];
@@ -62,6 +68,7 @@ class Application {
         this.infoTop = document.getElementById('infoTop');
         this.infoCam = document.getElementById('infoCam');
         
+        this.shadow = true;
         this.currentCam = 0;
         this.createCanvas();
         this.createScene();
@@ -114,7 +121,7 @@ class Application {
     
     createScene() {
         this.renderer = new THREE.WebGLRenderer({antialias: true, alpha: true, canvas: this.Canvas.el});
-        // this.renderer.setClearColor(0x000000, 0);
+        this.renderer.setClearColor(0x000000, 0);
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(this.Canvas.w, this.Canvas.h, false);
         // this.renderer.autoClear = false;
@@ -125,38 +132,85 @@ class Application {
     }
     
     createLights() {
-        // var light = new THREE.SpotLight(0xffffff, 1);
-        var light = new THREE.PointLight(0xffffff, 0.8, 1000);
+        var light = new THREE.SpotLight(0xffffff, 0.2);
+        this.shadow_light = light;
+        // var light = new THREE.PointLight(0xffffff, 0.8, 1000);
         light.castShadow = true;
-        light.position.set(0, 10, 180);
+        light.position.set(0, 0, 300);
         // light.shadow.bias = 0.1;
         light.shadow.mapSize.width = 1024;
         light.shadow.mapSize.height = 1024;
         light.shadow.camera.near = 0.1;
-        light.shadow.camera.far = 200000;
-        // this.scene.add(light);
+        light.shadow.camera.far = 1000;
+        this.scene.add(light);
         
         
-        let point = new THREE.PointLight(0xffffff, 0.3);
-        this.scene.add(point);
+        let point = new THREE.PointLight(0xff9900, 0.8);
+        // point.position.set(0, 0, 300);
+        // this.scene.add(point);
         
         
-        let ambient = new THREE.AmbientLight(0xffffff, 0.5);
+        let ambient = new THREE.AmbientLight(0xffffff, 0.4);
         // let ambient = new THREE.AmbientLight(0x000000, 1);
         this.scene.add(ambient);
     }
     
     createWorld() {
-        this.Boids.config.bounds = {x: 100, y: 50, z: 50};
+        this.Boids.config.bounds = {x: 250, y: 125, z: 125};
         
         this.add(this.Boids);
         
-        this.add(new Cube(this.Boids.config.bounds));
+        this.box = new Cube(this.Boids.config.bounds);
         
-        for (let x = 0; x < 10; x++) this.Boids.addRandom();
+        this.add(this.box);
+        
+        // for (let x = 0; x < 20; x++) this.Boids.addRandom();
+        
+        for (let x = 0; x < 10; x++) {
+            setTimeout(() => {
+                for (let x = 0; x < 10; x++) this.Boids.addRandom();
+            }, 1000 * x);
+        }
         
         // Gui
         const gui = this.gui;
+        
+        let general = this.gui.addFolder('General');
+        // general.open();
+        
+        general.add({
+            Shadow: () => {
+                this.shadow_light.castShadow = !this.shadow_light.castShadow;
+                this.Boids.castshadow = this.shadow_light.castShadow;
+            }
+        }, 'Shadow');
+        
+        let colors = {
+            "White": () => {
+                this.box.material.color = new THREE.Color(0xffffff);
+            },
+            'Pink': () => {
+                this.box.material.color = new THREE.Color(0xfcd4eb);
+            },
+            'Purple': () => {
+                this.box.material.color = new THREE.Color(0x5D487E);
+            }
+        };
+        // for (const key in colors) {
+        //     general.add(colors, key);
+        // }
+        
+        
+        var palette = {
+            'Box Color': [this.box.material.color.r * 255, this.box.material.color.g * 255, this.box.material.color.b * 255], // CSS string
+        };
+        let color = general.addColor(palette, 'Box Color');
+        
+        color.onChange(value => {
+            this.box.material.color = new THREE.Color(value[0] / 255, value[1] / 255, value[2] / 255);
+            // this.box.material.color = new THREE.Color(value.replace(/#/, '0x'))
+            console.log(value);
+        });
         
         
         let opt = this.gui.addFolder('Options');
@@ -191,16 +245,16 @@ class Application {
         
         let actions = {
             'Add 1': () => {
-                this.Boids.addRandom()
+                this.Boids.addRandom();
             },
             'Add 10': () => {
-                this.Boids.addVarious(10)
+                this.Boids.addVarious(10);
             },
             'Remove 1': () => {
-                this.Boids.removeRandom()
+                this.Boids.removeRandom();
             },
             'Remove 10': () => {
-                this.Boids.removeVarious(10)
+                this.Boids.removeVarious(10);
             }
         };
         
@@ -218,7 +272,7 @@ class Application {
         const camStatic = new THREE.PerspectiveCamera(45, this.Canvas.aspect, 0.1, 10000);
         camStatic.name = "Static";
         camStatic.info = "Overview Camera";
-        camStatic.position.z = 200;
+        camStatic.position.z = 500;
         this.controls = new OrbitControls(camStatic);
         this.controls.enableKeys = false;
         this.controls.enabled = false;
@@ -228,7 +282,7 @@ class Application {
         
         this.cameras[0] = camStatic;
         
-
+        
         
         
         
@@ -370,6 +424,26 @@ class Application {
         
     }
     
+    /**
+     * @param {HTMLElement} el
+     * @param {string} text
+     */
+    set_text(el, text) {
+        if (el.innerText !== text) {
+            el.innerText = text;
+        }
+    }
+    
+    /**
+     * @param {HTMLElement} el
+     * @param {string} text
+     */
+    set_html(el, text) {
+        if (el.innerHTML !== text) {
+            el.innerHTML = text;
+        }
+    }
+    
     render() {
         requestAnimationFrame(() => this.render());
         
@@ -383,11 +457,11 @@ class Application {
         let cam = this.cameras[this.currentCam];
         if (cam.action) cam.action();
         
-        // this.infoCam.innerText = 'Camera: ';
-        this.infoCam.innerHTML = (cam.name) ? cam.name : 'No Name';
-        this.infoCam.innerHTML += (cam.info) ? `<span><br>${cam.info}</span>` : '';
         
-        this.infoTop.innerText = this.Boids.count + ' Boids';
+        
+        this.set_html(this.infoCam, `${cam.name}<span><br>${cam.info}</span>`);
+        
+        this.set_text(this.infoTop, `${this.Boids.count} Boids`);
         
         
         this.renderer.render(this.scene, cam);
