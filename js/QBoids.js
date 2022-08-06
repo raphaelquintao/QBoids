@@ -1,8 +1,5 @@
 import * as THREE from "./libs/three.module.js";
-import {TrianglesDrawMode} from "./libs/three.module.js";
-import {Mesh} from "./libs/three.module.js";
-import {Group} from "./libs/three.module.js";
-import {Object3D} from "./libs/three.module.js";
+import { Mesh, Object3D, TrianglesDrawMode, MathUtils } from "./libs/three.module.js";
 
 
 export class QBoids extends Object3D {
@@ -12,8 +9,8 @@ export class QBoids extends Object3D {
         this.config = {
             separation: 15,
             alignment: 15,
-            cohesion: 15,
-            maxspeed: 0.6,
+            cohesion: 19,
+            maxspeed: 1.0,
             maxforce: 0.15,
             bounds: {x: 50, y: 50, z: 50}
         };
@@ -24,8 +21,14 @@ export class QBoids extends Object3D {
         
     }
     
-    get count(){
+    get count() {
         return this.children.length;
+    }
+    
+    set castshadow(castshadow) {
+        this.children.forEach(boid => {
+            boid.material.castshadow = castshadow;
+        });
     }
     
     add(boid = new QBoids()) {
@@ -50,7 +53,7 @@ export class QBoids extends Object3D {
         // r2 = Math.floor(r2 * Math.random());
         // r3 = Math.floor(r3 * Math.random());
         
-        const boid = new QFly(r1, r2, r3);
+        let boid = new QFly(r1, r2, r3);
         this.add(boid);
         return boid;
     }
@@ -61,11 +64,11 @@ export class QBoids extends Object3D {
                 this.children.pop();
     }
     
-    addVarious(count = 10){
+    addVarious(count = 10) {
         for (let x = 0; x < count; x++) this.addRandom();
     }
     
-    removeVarious(count = 10){
+    removeVarious(count = 10) {
         for (let x = 0; x < count; x++) this.removeRandom();
     }
     
@@ -246,9 +249,11 @@ export class QFly extends Mesh {
     constructor(x, y, z, color = 0xFF9900) {
         super();
         this.geometry = new THREE.ConeGeometry(1, 4, 8);
-        this.geometry.rotateX(THREE.Math.degToRad(90));
+        this.geometry.rotateX(MathUtils.degToRad(90));
         this.geometry.computeBoundingSphere();
         this.material = new THREE.MeshLambertMaterial({color: color});
+        
+        this.castShadow = true;
         
         this.drawMode = TrianglesDrawMode;
         this.updateMorphTargets();
